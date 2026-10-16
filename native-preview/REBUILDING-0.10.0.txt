@@ -1,0 +1,49 @@
+CONSOLIDATED FOREGROUND PREVIEW0.10.0 - BUILD RECORD
+
+Package version0.10.0 combines bridge0.8.0-dev, renderer0.9.2, sender0.7.0,
+and the preview control scripts. Version numbers identify separate components.
+The tested runtime file hashes are in validation.json and SHA256SUMS.txt.
+
+Extract source.zip. Its top directory is named source-package-0.8.0 because
+the dependency/build tree began with that engine version; its renderer and
+preview scripts are updated to this package. Rename it SCX4200 if preferred.
+Do not merge source files from old packages into it.
+
+Use pinned Zig0.15.2 Windows x64:
+SHA2563a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c
+at .tools/zig-x86_64-windows-0.15.2. Dependency archives are included under
+build and reference-job/upstream. Follow native-ipp-capture/REBUILDING.txt
+for extraction layout and source archive pins, including pinned SpliX.
+
+For each architecture x64/arm64:
+ native-async-bridge/build-dependencies.ps1 -Architecture ARCH
+ native-render-print/build-renderer.ps1 -Architecture ARCH -OutputRoot build/margin-fix
+ native-reliable-bridge/sender-build.ps1
+ native-async-bridge/build-bridge.ps1 -Architecture ARCH
+
+The margin-fix build output is separate from the old renderer baseline. The
+consolidator copies bridge/sender/CUPS from the verified0.9.0artifact and the
+renderer from verified0.9.2; it does not claim a newly independent clean build
+or binary-reproducibility audit. Historical source package scripts refer to
+their own stage artifacts and evidence. New package provenance is recorded
+by native-preview/package-consolidated.ps1 and the included validation.json.
+
+The GPL2 SpliX-derived renderer remains a standalone executable exchanging
+PGM/QPDL files. It is not linked into the Apache2 PAPPL bridge. Corresponding
+renderer source/build instructions and upstream archive are included. Runtime
+and dependency licence/notice files are beside the executables.
+
+Python/Pillow/NumPy are development verification tools; the target runtime
+does not require Python. Test-only fake senders and localhost mocks must be
+used for automated checks. Never run production real-USB tests unattended.
+Private evidence/page captures are deliberately omitted from source.zip.
+
+The synthetic margin suite is native-render-print/test-margin-fit.py OUTDIR.
+Its independent resize/decoder checks use generated non-private content.
+Optional original-renderer and target-sample comparisons report SKIP when
+those historical artifacts are absent; they are not silently counted as
+executed. Local acceptance included them. The integration script takes an
+optional second argument pointing to this suite's output directory:
+ native-async-bridge/test-margin-renderer.py NEW_OUTDIR FIXTURE_OUTDIR
+It uses production --mock-transport, never a real USB connection. Queue,
+status, collection and recovery tests use isolated files and mocked APIs.

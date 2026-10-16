@@ -1,0 +1,93 @@
+SCX-4200 NATIVE WINDOWS ARM64 FOREGROUND PREVIEW - 0.10.0
+
+This is the consolidated version of the tested0.9.0preview plus the verified
+0.9.2margin converter. No separate update is needed. Bridge/USB/CUPS binaries
+and the margin converter are identical to the successful target setup.
+The foreground window must stay open whenever you print. No WSL or second
+computer is required. This is still a preview, not a background service.
+
+IF YOU ALREADY USED THE TEST VERSIONS
+1. Stop your old bridge with Ctrl+C and wait for shutdown. Keep the existing
+   SCX-4200 Capture Test printer installed, with no documents in its queue.
+2. If the old folder still has SESSION-ACTIVE.lock, finish its recovery
+   there first. Do not use a new extraction to bypass an interrupted job.
+3. Extract this package into a NEW folder on the laptop's internal drive.
+   Keep old folders/evidence. Do not copy old locks or captures into it.
+4. Use command1 below. You do NOT need commands8/9, a printer reinstall,
+   or another sample-test sequence simply to use the consolidated package.
+
+DAILY USE
+1-START-RELIABLE-BRIDGE.cmd: start, type ARM, leave window open.
+Print your document to SCX-4200 Capture Test. Use A4, one copy, single-sided.
+Wait for "Ready for next document" before submitting another document.
+To stop: Ctrl+C in the bridge window; allow up to a minute for shutdown.
+
+Pages with top/left ink that the old converter refused now fit at roughly96%
+size. Already-fitting pages retain their output. Right/bottom-only edge ink
+retains previous behavior; this is not borderless printing. Resampling can
+slightly change fine details. Fit decisions are saved as page-NN.qpdl.json.
+
+Limits: monochrome A4 at300dpi, simplex, one copy,10pages/document and20pages
+per bridge session. After20pages, stop cleanly and start another session.
+Scanning,600dpi and sleep during printing are not supported claims. Idle
+sleep/wake, refill, reconnect, cancellation and deliberate recovery have been
+checked on one target laptop/printer; wider compatibility is not established.
+
+CONTROLS
+2-COLLECT-RESULTS.cmd: after shutdown, collect reports when something fails
+or after a useful batch. No need to collect after every successful document.
+Default ZIP excludes actual raster/page/bundle data, but reports/logs may
+contain document names or paths: review before sharing. Original pages stay
+locally in this folder; do not post them publicly. The optional collector
+-IncludePageData switch is for a specifically requested layout investigation.
+
+3-RECOVER-STOPPED-SESSION.cmd: deliberately abandon an interrupted session.
+Stop the bridge first. Keep partial output separate. With USB disconnected,
+cancel only the failed Windows document you intend to abandon, and wait for
+its row to disappear. Sent/Complete/Retained/Error still count as queue rows.
+Recovery backs up evidence and prompts you to clear printer memory: USB off,
+printer off20seconds, on, wait ready, load A4, reconnect USB, then type RESET.
+Start a new session only after Recovery complete. Never delete session locks
+or spool files to bypass this. The bridge does not replay failed documents.
+
+4-CANCEL-CURRENT-JOB.cmd: explicitly cancel the one processing bridge job.
+This is the verified control. Graphical Windows queue Cancel is not a proven
+substitute. Accepted cancellation does not reset printer memory: stop and
+recover before a fresh session. It cannot pull back sheets already printed.
+
+5-SHOW-STATUS.cmd: read bridge state, IPP jobs, and Windows job IDs/status.
+Windows/IPP IDs differ. Transport completion does not prove physical output.
+
+If paper runs out with the bridge still waiting, refill and let the current
+job continue; do not click Print again. If it reports Bridge stopped, stop
+and follow recovery instead. Report unexpected behavior without repeated
+retries. Avoid rebooting simply to diagnose a conversion error.
+
+FIRST INSTALLATION ON ANOTHER ARM64 LAPTOP - EXPERIMENTAL
+Commands8/9 are new and locally mocked; fresh setup/removal has not yet been
+validated on the target. Existing test users should leave them alone.
+Extract locally. With no bridge/capture running, right-click
+8-INSTALL-WINDOWS-QUEUE.cmd and choose Run as administrator. It briefly runs
+an owned loopback-only setup listener using explicit fail-only MOCK transport;
+it cannot send USB printer data. Do not print until setup has finished. An
+incidental job submitted during setup will fail, rather than print or be
+reported as successfully sent. It adds only SCX-4200 Capture Test at
+http://127.0.0.1:8631/ipp/print and saves its actual Windows queue identity.
+If that queue already exists, it is preserved; the setup does not take
+ownership of an existing queue for later removal. Review the setup outcome.
+After successful creation, use command1 as described above.
+
+9-REMOVE-OWNED-WINDOWS-QUEUE.cmd: Run as administrator only to remove a queue
+CREATED by command8 in THIS folder. Stop bridge first; queue must be empty.
+Exact recorded identity must match. Unrelated or pre-existing queues are
+never intentionally removed. No drivers, ports, services, documents or
+package folders are deleted. Keep records with the folder. For a historical
+test queue not created here, use its original removal method or Windows
+manually after checking its identity; this tool will refuse ownership.
+
+PUBLIC RELEASE
+This package is for controlled preview use. Read RELEASE-NOTES.txt for what
+is and is not verified. Source/licences/checksums are included. Nothing has
+been published to GitHub; fresh setup acceptance and the public source/build/
+licence audit remain before a wider release. Do not disable Windows security
+features if execution or installation is blocked; send the exact message.

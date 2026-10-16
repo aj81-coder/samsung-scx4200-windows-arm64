@@ -1,0 +1,20 @@
+SAVED-PAGE CONVERSION DIAGNOSTIC
+
+1. Stop the bridge with Ctrl+C and wait for shutdown if it is still open.
+2. Extract the files from this diagnostic ZIP directly INTO THE EXISTING
+   SCX4200-Foreground-Preview-0.9.0-arm64 folder containing your failed runs.
+   The new CMD and PS1 must sit beside SCX4200-Render.exe. Do not run them
+   from inside the ZIP or from a new empty folder.
+3. Run 6-DIAGNOSE-SAVED-PAGES.cmd once.
+4. Send the new control-render-diagnostic-TIME.json file created in that
+   folder. No full results ZIP or page capture is needed for this step.
+
+This checks saved pages from failed conversion jobs in the latest two runs
+using the existing, hash-verified standalone renderer. It never starts the
+bridge or sender, sends printer data, or changes queues/session locks.
+If conversion succeeds it saves an additional diagnostic QPDL locally; it
+does not print it. Original pages/results are left unchanged.
+
+The JSON contains generated run/page names, converter exit codes/messages,
+and output-created flags; no document pixels are included. Do not use the
+-IncludePageData collector option or upload the source document for this step.

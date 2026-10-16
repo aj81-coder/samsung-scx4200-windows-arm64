@@ -1,0 +1,20 @@
+name: Feature or compatibility request
+description: Suggest an improvement or ask about another printer model.
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What would you like to do?
+      description: Describe the practical need and current difficulty.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Relevant hardware and settings
+      description: Include exact printer model and Windows architecture if relevant. Other models are not assumed compatible.
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested approach or examples
+      description: Optional. Do not upload private documents.

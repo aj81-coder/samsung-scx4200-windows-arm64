@@ -1,0 +1,50 @@
+SCX-4200 paper-wait and recovery test 0.7.0
+
+The ordinary Windows/multipage route already printed correctly. This test
+checks the new paper-wait behaviour on the Snapdragon laptop.
+Keep the SCX-4200 Capture Test queue installed. Use only the supplied sample.
+
+PART A - ordinary printing
+1. Extract this ZIP into a NEW writable folder. Close earlier capture/bridge
+   programs. Connect the printer by USB, switch it on and load plenty of A4.
+2. Double-click 1-START-RELIABLE-BRIDGE.cmd. When the startup check passes,
+   type ARM and press Enter. Wait for readiness and leave the window open.
+3. Open TWO-PAGE-SAMPLE.pdf. Print ALL pages, ONE copy, A4, one-sided,
+   Actual size /100% if offered, to SCX-4200 Capture Test.
+4. Wait for both correct sheets and "Ready for next document".
+
+PART B - paper refill without resubmitting
+5. Leave the same bridge running. Once the first document has fully finished,
+   remove the unused paper from the INPUT tray (not the printed output).
+6. Print the same PDF once more, all pages, one copy. Do not print it twice.
+7. Wait about20seconds. The bridge should say "Load A4 paper" or
+   "Waiting for printer readiness"; the printer may also show No Paper.
+   Refill the input tray. Keep USB connected and the bridge open.
+   Do not press Print again, restart, reset or power the printer off while
+   it is waiting. The same job should continue after paper is available.
+8. Expect exactly TWO more correct sample sheets, with no internal-error page.
+   Report the message you saw and whether those two sheets printed once.
+   If no waiting message appears, refill anyway after about20seconds and
+   report that too; this printer's USB status behaviour is being tested.
+
+PART C - clean stop and collection
+9. Once printing is finished, press Ctrl+C in the bridge window. It may take
+   up to a minute to stop. Wait for the closing/"Press any key" prompt.
+10. Double-click 2-COLLECT-RESULTS.cmd. Attach the reliable-bridge-results ZIP
+    here. Tell us whether ordinary printing and the refill job both succeeded.
+
+If a job fails or produces missing/incorrect output, collect the results and
+stop there. The sender waits for the SAME pending request; it does not resend
+failed data. Waits are bounded (up to5minutes for a pending write, plus a
+document deadline); a failure leaves the session blocked to prevent replay.
+
+RECOVERY - only after a stopped failed/interrupted session
+Use 3-RECOVER-STOPPED-SESSION.cmd if asked to make a fresh test. It checks that
+the bridge and queue are idle, backs up old results, and asks you to clear the
+printer before typing RESET. It renames the old lock and never resumes the old
+job. Keep all output/report files. Do not delete locks manually.
+
+This foreground development app accepts one-copy, one-sided A4 at300dpi,
+up to10pages/document and20pages/session. The32MiB encoded-input limit remains.
+No administrator window is needed. Keep it running while printing. Results
+include the sample page and logs, so do not use private documents for this test.

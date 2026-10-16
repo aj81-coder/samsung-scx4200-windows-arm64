@@ -1,0 +1,13 @@
+# Target capture failure and 0.3.1 repair
+
+The user's 12 October reports establish successful native ARM64 startup, Windows queue creation with Microsoft IPP Class Driver, and incoming Windows IPP requests. They do not establish a captured page.
+
+The first queue-add report at 20:12:39 local says Succeeded=true. Further add attempts correctly found that same queue. Windows persisted Comment=`SCX-4200 Capture Test`, while 0.3.0 removal required the requested marker `SCX4200 native capture test 0.3.0`. The saved record already contained the actual Windows comment. This was a script defect: compare persisted actual identity, not an assumed requested comment. New tests cover this exact mismatch, idempotent setup/removal, changed identity refusal, bad records and enumeration failure. The recovery script is user-specific: it matches the exact original queue name, driver, port GUID and comment from the supplied diagnostic. Do not distribute that recovery identity as a general public uninstaller.
+
+The capture log at 19:19:56 UTC shows Validate-Job rejecting a media-col value, followed by successful Create-Job. Windows then sent a gzip-compressed Send-Document. PAPPL advertised gzip, but the original CUPS build explicitly disabled HAVE_LIBZ. The raster stream therefore failed to open and the job aborted with zero completed pages. This identifies an implementation/configuration mismatch, not a user mistake. zlib1.3.1 is now compiled into cups.dll and CUPS gzip support is enabled. Ten local IPP tests pass, including Windows-style Create-Job + gzip Send-Document and chunked gzip transport, with independent exact-pixel comparison.
+
+The media-col warning cannot be fully diagnosed from the old INFO log because the rejected collection is not recorded. Since Create-Job and Send-Document followed, it did not prevent this observed submission. 0.3.1 enables debug logs to inspect a repeat if needed; it does not loosen media validation speculatively.
+
+Closing the queue-setup window after pressing a key is normal. The separate capture window must remain open; rebooting stops that foreground listener. Instructions now distinguish these windows. Console page-save messages make progress visible, and result collection includes all capture runs in the extracted folder rather than only the latest run.
+
+The old 0.3.0 ZIP remains unchanged as evidence. 0.3.1 is a new ARM64 package. Its binaries are built/inspected and the queue scripts are tested with mocked Windows operations. The repaired target print path and actual queue cleanup still require the user's retry. Physical printing remains excluded in this milestone.

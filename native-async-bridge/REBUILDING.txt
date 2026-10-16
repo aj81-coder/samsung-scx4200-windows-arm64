@@ -1,0 +1,27 @@
+﻿Native asynchronous bridge 0.8.0
+
+Extract source.zip as SCX4200. Use pinned Zig0.15.2 Windows x64, SHA256
+3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c,
+extracted to .tools/zig-x86_64-windows-0.15.2.
+Extract CUPS2.4.11/PAPPL1.4.10/zlib1.3.1 under build and pinned SpliX under
+reference-job/upstream. See native-ipp-capture/REBUILDING.txt for archive pins.
+
+For x64 and arm64 first run native-async-bridge/build-dependencies.ps1 and
+native-render-print/build-renderer.ps1 -Architecture ARCH. Run
+native-reliable-bridge/sender-build.ps1 (both architectures). These renderer
+and sender components are unchanged from verified0.7.0.
+Then run
+native-async-bridge/build-bridge.ps1 -Architecture ARCH.
+The new generated PAPPL adaptations are separate from older stage libraries.
+
+Build test tools using native-async-bridge/build-test-tools.ps1. Tests need
+Python and Pillow; no Python is required on the user's laptop. Test programs
+use mocks or a separately compiled fake sender with no USB code. Production
+printing requires ARM; never use real mode for unattended development tests.
+Do not include test executables in the target package.
+
+The SpliX-derived GPL2 renderer remains a separate executable exchanging
+ordinary PGM/QPDL files. It is not linked into the PAPPL bridge. The source
+includes deterministic non-private fixtures and dependency source archives.
+Private captured pages are excluded. Source/licenses and hash manifest are
+included for review; public publication and licence audit remain later work.

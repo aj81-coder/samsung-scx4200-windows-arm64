@@ -1,0 +1,38 @@
+SCX-4200: controlled Windows-page paper test
+
+This step converts ONE Windows-captured page and sends it to the printer only
+after you check its preview and type PRINT. It is not the automatic bridge yet.
+Use a non-sensitive sample page. Keep this entire package together; extract it
+to a writable folder on the Snapdragon laptop before running anything.
+
+1. Use the successful sample capture you already made, with capture stopped.
+   You can use its original capture folder or extract the successful results
+   ZIP and choose the capture run folder inside it. Keep the existing working
+   0.3.1 capture package and Windows capture queue.
+   If you need a NEW capture: start capture in the old package.
+   Print its one-page SAMPLE-PAGE from Notepad to SCX-4200 Capture Test.
+   Wait for capture completion, then stop the capture program with Ctrl+C.
+   Do not remove or reinstall the queue for this test.
+
+2. Double-click 1-PREPARE-PAGE.cmd. Paste the absolute path to the
+   old capture package folder, or the specific capture run folder. The newest
+   completed page is selected; multiple-page/incomplete jobs are refused.
+   Nothing is sent to the printer during preparation. On success it displays
+   a prepared folder path and the preview.bmp path. Open that BMP and check
+   that the complete sample is present, upright and readable.
+
+3. Keep the printer on and connected by USB to the Snapdragon laptop. Run
+   2-PRINT-PREPARED-PAGE.cmd and paste the prepared folder path. Only type PRINT at
+   the native sender prompt if the preview is correct. This sends one copy.
+   A permanent attempt marker prevents running the same prepared job twice.
+   Cancellation also uses that attempt: do not delete markers or copy/recreate
+   the package to retry. Missing/partial output requires investigation first.
+
+4. Run 3-COLLECT-RESULTS.cmd and attach the resulting controlled-print-results
+   ZIP to the chat. Report whether one physical page printed and matched the
+   preview. This ZIP includes the sample page and logs; use no private document
+   for this test. Collect results even if preparation or printing fails.
+
+Preparation and sending need no administrator window. The other laptop is
+not involved in printing; the Snapdragon laptop and printer are needed for
+the paper test. Do not remove the working capture package yet.

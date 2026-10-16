@@ -1,0 +1,118 @@
+# Samsung SCX-4200 printing on Windows ARM64
+
+Print to a USB-connected Samsung SCX-4200 from ordinary Windows applications on a Windows 11 ARM64 laptop. The small background app starts when you sign in and offers status and recovery controls beside the clock. Normal printing needs no console window, WSL, second computer or internet service.
+
+**General Preview 0.12.1 — release candidate, not published.** This update adds a recognisable printer tray icon and automatic housekeeping across app restarts. It keeps the document handling accepted in 0.12.0: a three-page document printed correctly on the target ARM64 laptop, and its diagnostics showed no errors or retries. Automated checks previously covered 257 pages. New housekeeping, build and package checks are recorded separately in [validation](VALIDATION.md). Fresh printer creation/removal still needs physical acceptance. See [release gates](RELEASE-GATES.md).
+
+## What this is
+
+This is an independent community project, not a Samsung or HP product. Windows uses its built-in Microsoft IPP Class Driver. This app receives the local print job, renders it into the printer's language and sends it over USB. You do not install an old x64 Samsung driver on ARM64 Windows.
+
+Current supported output is A4, monochrome, 300 dpi, single-sided, one copy. It does not provide scanning, duplex, 600 dpi, network printer sharing or printing before sign-in. Keep the laptop awake during a job. Compatibility with other Samsung printer models or every Windows ARM64 computer is not established.
+
+## Install once
+
+Use **SCX4200-General-Preview-0.12.1-arm64.zip** when the candidate is supplied for testing or published in the project's Releases page. The package includes `source.zip` for the matching implementation. No public download is available yet. These steps are for the candidate; its new-user setup has not yet been demonstrated on the physical ARM64 laptop.
+
+1. Finish any printing. If you use an older foreground bridge, stop it with Ctrl+C and wait for it to close. Complete any interrupted-job recovery in that version first.
+2. If upgrading from 0.12.0 or 0.11.1, finish printing, choose **Quit** from its tray icon (including under the hidden-icons arrow), wait for it to close and run **UNINSTALL.cmd** from that old package. Keep the printer and diagnostic data; removal preserves them. The new installer does not overwrite an existing app installation.
+3. Extract the new ZIP into a new folder on the laptop. Keep this extracted package: its queue ownership receipt is needed if you later remove a printer it created. Keep any existing **SCX-4200 Capture Test** printer installed and its queue empty.
+4. Double-click **INSTALL.cmd** as your normal Windows user. It preserves an existing **Samsung SCX-4200** or legacy **SCX-4200 Capture Test** queue. If neither exists it attempts to create **Samsung SCX-4200**. Wait for **Installed**.
+5. Look for the printer icon beside the clock, including under the hidden-icons arrow. Print one short document and check the actual sheet.
+
+Setup copies the app to the laptop and creates Start menu and sign-in shortcuts. You do not need to open the download folder to print again. If Windows denies permission to create the printer, use **ADD-PRINTER.cmd** with **Run as administrator** for the queue-only step, then return to your normal account and run **INSTALL.cmd**. Do not run the per-user app installer under a different administrator account. Do not use ADD-PRINTER for unrelated errors.
+
+If installation fails, keep its message and `setup-result-….json` beside INSTALL.cmd, along with any `queue-setup-…-result.json`. Report those rather than repeatedly installing. A partial failure may have created a printer even though the app was not installed; preserve the package and ownership receipt so its state can be diagnosed safely.
+
+The package is currently unsigned. If Windows or workplace policy prevents running it, report the exact message; do not disable antivirus, SmartScreen or organizational policy. There is no hosted public download or publisher identity to verify yet.
+
+## Print normally
+
+1. Turn on the printer, connect USB and load A4 paper.
+2. In your application, choose **Print** and select **Samsung SCX-4200**, or **SCX-4200 Capture Test** if you kept the older queue.
+3. Select A4, one copy and single-sided printing, then click Print.
+
+The background app starts automatically after sign-in. If you deliberately quit it, open **Samsung SCX-4200** from Start. Never run an old bridge alongside it. You can leave the printer off or disconnected between jobs.
+
+The 0.12.1 candidate has **no fixed page-count limit or fixed upload-size limit**, and no cumulative session allowance. It spools the complete document to disk before printing, renders pages individually and streams the validated result to USB using bounded buffers. Large jobs take longer and need proportionately more disk space. A 128 MiB free-space reserve and overflow/error checks can refuse a job; this is not a promise to handle an infinitely large document. Device-free tests passed with 257 pages and with an upload exceeding the old 32 MiB cap. The 0.12.0 document path printed a correct three-page document on the target; its engine, sender and renderer are unchanged in this update.
+
+Some edge content is reduced slightly to fit the printer's margins. Borderless output is not supported. Windows reporting **Sent to printer** or a completed job means that data was handed off, not that every sheet has physically emerged. Check the paper when completeness matters.
+
+## Controls beside the clock
+
+Right-click the printer icon:
+
+| Control | Purpose |
+| --- | --- |
+| Printer status | Show the current app state. Ready means the app is listening, not proof that the printer is connected or loaded. |
+| Cancel current document | Ask the bridge to stop the active document. Data already buffered in the printer may remain. |
+| Stop printing | Stop the engine while keeping the icon available. Wait for the stopped state before recovery. |
+| Recover stopped session | Guide you through abandoning an interrupted job and clearing printer memory deliberately. |
+| Start printing | Start the stopped engine when no recovery is outstanding. |
+| Save diagnostics | Create a report ZIP and show its location. |
+| Open logs folder | Open local troubleshooting data. Do not upload this entire folder. |
+| Quit | Close the app after it has stopped safely. Its sign-in shortcut remains. |
+
+You do not need these controls after each successful document.
+
+## If paper runs out
+
+Refill the tray and allow the existing job to continue. **Do not click Print again.** The app waits for the same transfer rather than resending it. If it eventually reports a stopped or uncertain job, follow recovery below. A paper refill does not override an already reported transfer failure.
+
+## Cancel or recover an interrupted job
+
+Use **Cancel current document** in the tray menu. A cancellation request cannot retract sheets or erase bytes already inside the printer. Ordinary Windows queue cancellation is not a substitute for the bridge's tested cancel control.
+
+If the app requires recovery:
+
+1. Choose **Stop printing** and wait until the engine has stopped.
+2. Open the Windows print queue for this printer. Cancel only the failed document you intend to abandon, and wait until its row disappears. An Error, Retained or Deleting row still counts as a job; do not remove the printer itself.
+3. Choose **Recover stopped session**. Follow its instructions to disconnect USB, turn the printer off for 20 seconds, turn it on with A4 loaded, wait until ready and reconnect USB.
+4. Confirm only after you have completed those steps and intend to abandon the old job.
+5. When recovery succeeds, choose **Start printing**. Submit a new document only if you want another copy. Keep partial output separate so you can identify missing or duplicate pages.
+
+Recovery preserves evidence and does not automatically replay an old document. Do not delete lock files or spool data to force a restart. If Windows will not remove a failed queue row, save diagnostics and report its status before taking further action.
+
+## Troubleshooting
+
+| What happens | What to do |
+| --- | --- |
+| No icon after sign-in | Check hidden icons, then open Samsung SCX-4200 from Start. If it fails, save the exact message. Do not launch multiple copies. |
+| Job waits with no output | Check power, USB and paper. Check Printer status and the Windows queue. Do not submit the document repeatedly. |
+| USB was unplugged during printing | Treat the document as potentially partly printed. Reconnect, then follow any recovery instruction. The app deliberately avoids automatic replay. |
+| Recovery says the queue contains jobs | Open the queue, identify the failed document and wait for its row to disappear after cancellation. Keep the printer installed. |
+| Port already in use or another bridge running | Close the older bridge and allow it to stop. Only one bridge can serve the printer at a time. |
+| A document is rejected or disk space is low | Keep its error and save diagnostics. Free ordinary disk space if needed. Do not delete printer recovery data as a shortcut. For large jobs allow time to spool and render before paper starts. |
+| Page content or margins look wrong | Report the application, paper settings and what was missing. Share a harmless example only if you are comfortable doing so. |
+
+## Update or remove
+
+There is no automatic updater. Do not copy new executables over a running installation.
+
+For an existing preview update: finish printing, complete recovery if required, choose **Quit**, then run **UNINSTALL.cmd** from the installed version's extracted package. Once it succeeds, install the newer package with **INSTALL.cmd**. Read that version's release notes first; changing versions does not resolve an interrupted printer job.
+
+App removal checks its ownership receipts and removes only its recorded app files and startup/Start menu shortcuts. It **preserves printer queues and diagnostic data**. If removal says the app is still running, choose **Quit** rather than **Stop printing**, wait for the icon to disappear and try removal again. If removal refuses because a file or shortcut has changed, preserve the message rather than deleting the folder manually.
+
+To remove a **Samsung SCX-4200** queue created by this package, first finish or abandon pending work, quit the app and complete app removal. Then run **REMOVE-PRINTER.cmd** from the same extracted package containing its ownership receipt. Use administrator mode if Windows requires it. It refuses to remove an existing queue it did not create, a changed queue or one with pending jobs. Keep a legacy test queue if you may return to the old version. Queue removal does not remove the Windows class driver or unrelated printers.
+
+## Storage and automatic housekeeping
+
+The app keeps local troubleshooting data between jobs. Temporary successful print payloads are normally removed after a job or at clean shutdown; a little metadata and logs remain. Failed or interrupted jobs may retain document content for diagnosis and safe recovery.
+
+Before starting the engine, 0.12.1 checks older sessions while it owns the control gate and no engine is running. It keeps the **ten most recent eligible clean sessions across restarts**. Older sessions are removed only when their recorded CLEAN_SHUTDOWN state proves clean success, every job is verified successful and every item matches the expected layout. Mock sessions and nonempty framework spool directories are preserved. This is a session-history limit, not a document page limit. Active, failed, uncertain, malformed, unknown or linked content is preserved. Files are individually checked and removed without recursively deleting the data folder. Host logs are removed only when tied to a session that was safely pruned. Cleanup records a resumable journal; changed or unrecognised journal state is preserved for diagnosis. The latest housekeeping summary is included with saved diagnostics.
+
+Successful Cancel and Diagnostics control reports keep a combined recent history of twenty. All recovery reports, failed reports and unrecognised reports remain available. **Saved diagnostic ZIPs and recovery backups are never automatically deleted.** Unresolved failures, unusual files or many manually saved exports can therefore still grow the folder; the app does not impose an unconditional total-size limit or discard failure evidence merely because it is old.
+
+No regular manual cleanup is needed after successful printing. You may delete a saved diagnostic ZIP you created after you have finished sharing or keeping it, preferably with the app stopped. Do not delete session directories, lock files or recovery backups to resolve a printer problem. For an unexpectedly large folder, save diagnostics and ask for help identifying the retained data. Uninstall preserves this data deliberately.
+
+## Privacy and diagnostics
+
+Printing happens locally. The bridge listens at `http://127.0.0.1:8631/ipp/print`, not on the network. This is not an encrypted archive: Windows and the app process your document locally, and interrupted-job evidence can contain page images and raw print data on disk.
+
+App files are under `%LOCALAPPDATA%\SCX4200\app`; data is under `%LOCALAPPDATA%\SCX4200\data`. The default **Save diagnostics** ZIP excludes page images and raw print payloads, but JSON and logs may include document names, local paths and printer identifiers. Review it before posting publicly. Recovery backups and the whole data folder are more sensitive and are not a substitute for the diagnostic ZIP.
+
+Do not upload confidential documents, page captures or passwords in a public issue. [Reporting guidance](SUPPORT.md) explains the useful information to include. Successful prints do not need a diagnostic report.
+
+## Source, contributions and licences
+
+The matching source package and complete component notices must accompany each public binary release. See [building](BUILDING.md), [contributing](CONTRIBUTING.md), [licence boundaries](LICENSING.md) and [security reporting](SECURITY.md). Original project code is Apache-2.0; the separate SpliX-derived renderer and existing GPL verification files retain GPL terms. Third-party notices remain applicable. Apache-2.0 does not relicense the entire bundle.

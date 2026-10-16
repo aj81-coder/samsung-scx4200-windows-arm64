@@ -1,0 +1,22 @@
+Controlled renderer / USB test 0.4.0
+
+This package supplements the existing 0.3.1 IPP capture test. It does not
+install a driver or automatically forward Windows jobs. Only one A4 page
+at 300dpi is supported in this controlled step. Scanning is not supported.
+
+Source layout is preserved in source.zip. Extract it as SCX4200.
+Use the official Zig 0.15.2 Windows x64 archive (SHA256
+3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c),
+extracted into .tools/zig-x86_64-windows-0.15.2.
+Extract reference-job/upstream/splix-source.zip into its existing named
+commit directory. The build verifies the source archive hash.
+Run native-render-print/build-renderer.ps1 -Architecture arm64
+and native-render-print/sender-build.ps1 in PowerShell.
+For development verification, also build the x64 renderer, install Pillow
+in Python, and run the supplied test-renderer.py and sender-verify.py.
+
+The renderer incorporates SpliX GPL-2.0-only code. See SPLIX-COPYING.txt.
+It is a separate executable communicating through standard PGM input and
+QPDL output files. The sender uses Windows APIs and the included USB helper.
+The existing IPP capture executable is supplied separately in version0.3.1.
+No user capture data is included in this source archive.

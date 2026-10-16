@@ -1,0 +1,31 @@
+FOREGROUND PREVIEW0.10.0
+
+Consolidates the successful0.9.0controls and0.9.2renderer-only margin fix.
+All four runtime binaries match the target-tested setup. No transport or
+encoding change beyond the already verified margin renderer is introduced.
+
+Verified on the Snapdragon target: normal/multipage/repeated output, paper
+refill, direct bridge and exact-ID Windows API cancellation, idle reconnect,
+idle sleep/wake, interrupted USB transfer stop, explicit recovery and fresh
+output without old/extra pages. Ordinary-document margin refusal is fixed;
+both saved failed pages converted and a fresh fitted page printed correctly.
+Local independent tests verify fitted output pixels and unchanged sample
+output. These are bounded acceptance results, not universal compatibility.
+
+New in this consolidation: experimental first-use queue setup and exact-owned
+queue removal. Existing queues are not adopted or altered. These new scripts
+are mocked locally; target fresh install/remove acceptance remains pending.
+Current users need no queue changes and no repeated transport test sequence.
+
+This remains a foreground preview: no service, autostart, scanning,600dpi,
+duplex, multiple copies, or mid-job sleep guarantee. Graphical Windows Cancel
+is unverified; command4 is the proven explicit bridge cancel path. Only pages
+with top/left ink that would previously be refused trigger automatic fitting.
+Right/bottom-only edge content retains prior behavior.
+
+Private documents remain locally in run folders. Default collected ZIPs omit
+page pixels but include logs/reports, which can name documents. Review before
+sharing; do not upload private captures or identifiers to a public issue.
+
+Source/licences/manifests are provided for review. Public repository creation,
+release upload, signing, and broad compatibility claims have not occurred.

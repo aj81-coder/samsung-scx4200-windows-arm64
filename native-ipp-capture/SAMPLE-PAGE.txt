@@ -1,0 +1,11 @@
+SAMSUNG SCX-4200
+Windows ARM64 IPP capture test
+
+This page tests the normal Windows Print dialog.
+The capture version saves the page into files; it does not print on paper.
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789
+
+If this page appears in the captured raster, Windows integration is working.

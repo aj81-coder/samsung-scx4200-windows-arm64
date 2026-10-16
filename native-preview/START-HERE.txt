@@ -1,0 +1,82 @@
+SCX-4200 NATIVE ARM64 FOREGROUND PREVIEW - 0.9.0
+
+This preview uses the SAME printing components as tested 0.8.4. The changes
+are status, recovery guidance, smaller results collection, and these instructions.
+It needs no WSL or second computer. Keep this window-based bridge open to print.
+This is a development preview, not an installed background service.
+
+MOVE FROM YOUR EXISTING TEST FOLDER
+1. Stop the old bridge with Ctrl+C and wait for shutdown. Keep the existing
+   SCX-4200 Capture Test printer installed. Its Windows queue must be empty.
+2. Finish recovery in the OLD folder if it still has a SESSION-ACTIVE.lock.
+   Do not move to a new folder to bypass a failed/interrupted session.
+3. Extract this ZIP into a NEW folder. Keep the old folder as evidence.
+   Do not copy old captures, logs, or session locks into the new folder.
+   No printer reinstall is required for the existing tested setup.
+
+NORMAL PRINTING
+1. Connect USB, turn the printer on, and load A4 paper.
+2. Run 1-START-RELIABLE-BRIDGE.cmd. Type ARM when asked. Leave it open.
+3. Print a document to SCX-4200 Capture Test. Use A4, one copy, single-sided.
+   Start with ordinary, non-sensitive documents. No repeat sample test is
+   required just to switch folders. Check the actual sheets for correctness.
+4. Wait for "Ready for next document" before submitting another document.
+5. To finish, press Ctrl+C in the bridge window. Wait up to one minute for
+   shutdown and press a key if prompted. Do this before closing Windows.
+
+Current limits: monochrome, A4,300dpi, single-sided, one copy, up to10pages
+per document and20pages per bridge session. After20pages, stop cleanly and
+start another session. Scanning,600dpi and sleep DURING printing are unverified.
+
+IF YOU NEED STATUS
+Run 5-SHOW-STATUS.cmd in this folder. It does not cancel, resume, or print.
+It shows bridge state and Windows job IDs/status. IPP job IDs are different
+from Windows job IDs. Windows Sent/Complete/Retained does not confirm physical
+paper output. A stale/error Windows row still counts as a queue record.
+
+IF PAPER RUNS OUT
+Refill the tray; leave the bridge running. The current job should continue.
+Do not submit it again. If the bridge reports it has stopped, follow recovery.
+
+IF YOU WANT TO CANCEL THE ACTIVE JOB
+Run 4-CANCEL-CURRENT-JOB.cmd while the bridge is running. This deliberately
+cancels its one processing job. The helper's success means cancellation was
+accepted, not that the printer's internal buffer was reset. Stop the bridge
+and follow recovery before starting a new session. Graphical Windows Cancel
+is not the verified bridge control in this preview.
+
+IF THE BRIDGE REPORTS A FAILURE OR INTERRUPTED TRANSFER
+Do not resubmit. Keep partial output separate. Stop the bridge with Ctrl+C.
+Keep USB disconnected and the tray empty until the printer has been cleared.
+1. Run 2-COLLECT-RESULTS.cmd to preserve reports if investigating a new issue.
+2. Run 3-RECOVER-STOPPED-SESSION.cmd. If it lists Windows jobs, cancel ONLY
+   the failed document you intend to abandon in the Windows print queue.
+   Wait for its row to disappear, then run recovery again. Keep the printer
+   entry installed. If the row stays after one minute, report its ID/status.
+3. Recovery backs up the old evidence and asks you to clear the printer:
+   disconnect USB, turn the printer off, wait20seconds, turn it on, wait
+   until ready, load A4, then reconnect USB. Type RESET only after this.
+4. After "Recovery complete", start command1, ARM, and submit a NEW job.
+Do not delete session locks, spool files, or captured pages to bypass recovery.
+The bridge does not automatically replay failed or interrupted documents.
+
+RESULTS / FEEDBACK
+Use ordinary printing for feedback. Send one collection when reporting a
+problem or after a useful batch; there is no need to collect after each job.
+Run command2 AFTER bridge shutdown. It creates preview-results-TIME.zip.
+Default collection includes JSON reports from all sessions and framework logs
+from the latest two sessions. It excludes actual raster/page/bundle captures.
+Logs/reports can still contain document names or paths: review before sharing.
+An optional -IncludePageData switch is available for a specifically requested
+layout investigation; it adds captured content from the latest two sessions.
+Keep the folder intact so original captures remain available locally.
+Recovery backup ZIPs are listed by hash/size, not nested into each collection.
+
+Tell us: application/document type, expected versus actual output, command or
+message involved, and whether you stopped/canceled/refilled/unplugged. Do not
+repeat a failing print to get more evidence unless specifically requested.
+
+NEW USERS / PUBLICATION
+This package assumes the existing verified Microsoft IPP Class Driver queue.
+Fresh installation/removal and background operation are later release work.
+No general compatibility or public-release readiness is claimed yet.

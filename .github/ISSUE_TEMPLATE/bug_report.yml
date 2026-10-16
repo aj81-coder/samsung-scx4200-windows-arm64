@@ -1,0 +1,37 @@
+name: Printing or installation problem
+description: Report an ordinary problem without sharing private documents.
+body:
+  - type: markdown
+    attributes:
+      value: Please read SUPPORT.md. Do not attach page captures, recovery backups, confidential documents or security exploit details. Review diagnostic ZIPs for private names and paths.
+  - type: input
+    id: version
+    attributes:
+      label: App version and installation route
+      description: Include fresh install, update or existing test queue.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Laptop, Windows version, printer and connection
+      description: Confirm Windows ARM64 and the exact printer model.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: What happened and how to reproduce it
+      description: Include application, document type, page count, settings, expected result and exact error message.
+    validations:
+      required: true
+  - type: textarea
+    id: physical
+    attributes:
+      label: Physical output and interruptions
+      description: How many complete/partial/duplicate sheets printed? Did paper run out, USB disconnect, sleep or cancellation occur?
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Reviewed diagnostics or setup report
+      description: Optional. Use Save diagnostics, not the whole data folder. For installation failure include the setup-result JSON and message.

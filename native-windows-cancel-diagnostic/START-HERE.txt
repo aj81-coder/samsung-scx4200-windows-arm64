@@ -1,0 +1,60 @@
+SCX-4200 Windows cancellation diagnostic - controls package 0.8.4
+
+Printing executables are unchanged from 0.8.0. Normal printing already passed.
+This update replaces the opaque spooler identity check with a query-only
+native Windows check. Any refusal now records its precise stage/error code.
+The monitor now waits up to TEN MINUTES for the job, with periodic reminders.
+This test identifies one new Windows job precisely and attempts to cancel
+that job through Windows automatically. It does not use direct IPP Cancel.
+This update handles Windows marking a freshly submitted job Complete, Retained
+while the bridge is still processing it. The exact recent record can now be
+targeted after all identity checks. Other finished/ambiguous jobs are refused.
+Use only the supplied sample, once.
+
+PREPARE
+1. Stop any old bridge with Ctrl+C and wait for it to close (up to a minute).
+2. Switch the printer OFF, disconnect USB, and wait 20 seconds to abandon
+   buffered data from the previous test. Empty the INPUT paper tray.
+3. Check Settings > Bluetooth & devices > Printers & scanners > SCX-4200
+   Capture Test > Open print queue. Cancel any old sample documents. Keep
+   the printer entry installed. If old documents stay stuck, stop and tell us.
+4. Extract this ZIP into a NEW folder on the Snapdragon laptop. Run commands
+   from the extracted folder, not from inside the ZIP. Reconnect USB and
+   switch the printer on. KEEP THE INPUT TRAY EMPTY throughout this test.
+
+RUN ONE TEST
+5. Open TWO-PAGE-SAMPLE.pdf first so it is ready to print. Do not print yet.
+   Double-click 1-START-RELIABLE-BRIDGE.cmd. Type ARM and press Enter when
+   asked. Wait for readiness and leave this bridge window open.
+6. From the SAME new folder double-click
+   5-DIAGNOSE-WINDOWS-CANCELLATION.cmd.
+   Wait for its instruction to print ONE sample. Leave both windows open.
+   If it reports a startup/refusal error, do not print; stop and collect.
+7. Open TWO-PAGE-SAMPLE.pdf and print ALL pages, ONE copy, A4, one-sided,
+   Actual size / 100% if offered, to SCX-4200 Capture Test. Click Print ONCE.
+8. Leave the paper tray empty. The diagnostic watches the Windows job and
+   attempts one cancellation automatically when it can safely identify it.
+   Do NOT click Cancel in Windows and do NOT run the separate Cancel button:
+   either would confuse the result. Do not print another document.
+9. Wait for the diagnostic's final message / Press any key prompt. Allow
+   up to eleven minutes if no job arrives. After a job arrives, cancellation
+   and observation normally take about 30 seconds. Note its actual outcome.
+   A message saying the job
+   was already finished or missing is useful evidence; do not try again.
+10. In the BRIDGE window press Ctrl+C and wait for it to stop (up to a minute).
+    Keep the tray empty. Do not refill, restart, or submit another document.
+11. Run 2-COLLECT-RESULTS.cmd from the new folder and attach the results ZIP.
+    Tell us the diagnostic's final message and what the printer displayed.
+
+If anything differs, stop and collect. If the diagnostic window closes or
+appears stuck after about eleven minutes, note that, stop the bridge with
+Ctrl+C, and collect whatever reports are present. Never restart this test
+automatically. Keep all old results folders. No administrator window is needed.
+
+After the bridge has stopped, the printer can be switched off and USB
+disconnected. Do not refill before clearing a partially buffered document.
+
+This diagnostic only targets SCX-4200 Capture Test. It does not remove queues,
+restart the spooler, reset USB or power-cycle the printer. Reported local
+deletion/completion does not itself prove the bridge received cancellation;
+we will check the IPP log and USB sender reports separately.

@@ -1,0 +1,38 @@
+Asynchronous bridge regression (0.8)
+===================================
+
+Run after build-dependencies.ps1, build-bridge.ps1 for x64, and build-test-tools.ps1:
+python test-async.py <new-empty-results-directory>
+
+Only one local test suite may own 127.0.0.1:8631. Run with loopback access.
+The suite never touches a printer. Production binaries run only with explicit
+--mock-transport. The compile-time test bridge hardcodes a separate test sender
+whose source has no USB enumeration, open, or write path. Do not package test EXEs.
+
+Acceptance coverage:
+* Send-Document returns before the sender's paper-wait release marker, with job
+  still processing. Direct Cancel-Job then terminates canceled; one sender call.
+* Concurrent new job cannot invoke a second sender; cancel never replays work.
+* Failed/canceled session retains durable lock and refuses a fresh startup.
+* Two sequential gzip/chunked jobs complete after explicit simulated releases.
+  Independent GPL decoder checks each pixel/page order in the first bundle.
+* Cancel while a chunked HTTP body is unfinished returns promptly, leaves a
+  canceled job, and invokes no sender. Rejection may close the body connection.
+* Actual production binary accepts valid two-page mock job and rejects truncated
+  next header before mock transport. Independent pixels validate valid path.
+* An approximately 8.8 MiB literal PWG page checks byte-boundary reader cost,
+  with full acceptance/render/mock completion under 30 seconds locally.
+* Partial uncertain sender acknowledgment is preserved in bridge-result.json,
+  marked known and delivery-uncertain, with no automatic retry.
+* Unsupported document format and copies=2 never reach sender.
+* Truncated second raster, 96-byte and one-byte next header, oversized geometry,
+  gzip expanding beyond 32 MiB, second-renderer failure, and cancellation during
+  conversion all terminate without sender invocation.
+* Full valid PWG inside gzip with missing trailer or corrupt CRC is rejected
+  without sender invocation; this checks HTTP decompressor finality.
+
+Each result records test-source, actual production binaries, test bridge and
+no-USB sender hashes. Failed debug runs remain as evidence but only the final
+frozen-source/frozen-binary run is release validation. None of these checks proves
+that Windows IPP Class Driver sends Cancel-Job; target Windows queue testing is
+still required. No hardware USB cancellation/reset behavior is claimed here.

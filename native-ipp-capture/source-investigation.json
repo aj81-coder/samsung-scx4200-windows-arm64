@@ -1,0 +1,21 @@
+{
+  "status": "native-x64-tested-arm64-built-awaiting-target",
+  "pappl": {
+    "tag": "v1.4.10",
+    "source_url": "https://codeload.github.com/michaelrsweet/pappl/zip/refs/tags/v1.4.10",
+    "archive_sha256": "1e93ffc841ea560b93a3f699bc0f3b3220ac4df2e0f0934f0c30f62bb8c6c72f",
+    "git_tree_api_sha": "3ada8aa677cfc7f43d743a8bb48d3560acdcd702",
+    "local_archive": "build/pappl-1.4.10.zip",
+    "windows_project": "vcnet/libpappl1.vcxproj",
+    "upstream_windows_platforms": [
+      "x64"
+    ],
+    "arm64_build_verified": true
+  },
+  "cups": {
+    "investigation_tag": "v2.4.11",
+    "download_executed": true,
+    "blocker": null,
+    "archive_sha256": "7c8481adc19e92399ba847e65df7a7251d96cb29b3e704cad780965d99403e42"
+  }
+}

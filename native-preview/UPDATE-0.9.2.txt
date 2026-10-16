@@ -1,0 +1,48 @@
+MARGIN COMPATIBILITY FIX - 0.9.2 - EXISTING ARM64 PREVIEW
+
+Both failed jobs were refused because of ink in the top/left hardware margin.
+The revised converter fits those previously refused pages at about96% size
+inside conservative printable margins. Pages that already fit are unchanged.
+The bridge, USB sender and CUPS DLL are unchanged. It does not replay old jobs.
+Right/bottom-only edge content retains prior behavior; this is not borderless
+printing. Fitting can slightly change fine details, as with normal resampling.
+
+INSTALL AND CHECK YOUR SAVED PAGES (NO PRINTING)
+1. Stop the existing bridge with Ctrl+C and wait for shutdown.
+2. Extract ALL files in this update ZIP INTO THE EXISTING
+   SCX4200-Foreground-Preview-0.9.0-arm64 folder containing the failed runs.
+   If Windows asks to replace diagnose-rendering.ps1 and command6, allow it.
+   Do not extract into a new empty folder or bypass the old session lock.
+3. Run 7-INSTALL-MARGIN-FIX.cmd. Continue only after "Renderer update installed."
+   It verifies checksums, preserves the original converter as
+   SCX4200-Render-before-0.9.2.exe, and installs the new converter atomically.
+   Session locks, queue entries and captured pages are left unchanged.
+4. Run 6-DIAGNOSE-SAVED-PAGES.cmd. This checks the locally saved failed pages.
+   Continue only after "All examined saved pages converted successfully."
+   If either command fails, stop and send its message and any new
+   control-render-diagnostic JSON. Do not print again to diagnose it.
+
+ONE PHYSICAL CHECK AFTER THE SAVED PAGES PASS
+5. Clear any failed document rows from SCX-4200 Capture Test in Windows.
+   Keep the printer entry. Run3-RECOVER-STOPPED-SESSION.cmd and follow its
+   printer-clearing/RESET instructions. If a row will not disappear or
+   recovery fails, stop and report it rather than repeatedly retrying.
+6. After Recovery complete, start command1, type ARM, and print ONE of the
+   documents that previously failed, once. Check the content near the edges
+   is present and readable; the page may be slightly smaller.
+7. Stop the bridge cleanly and run2-COLLECT-RESULTS.cmd. Send that one ZIP
+   with your observation. It includes the offline check and fitting reports;
+   no page-data upload or transport/cancellation/reconnect retest is needed.
+
+TECHNICAL RECORD
+New rendering sidecars page-NN.qpdl.json record whether fitting occurred and
+its dimensions/offset. Default result collection includes these small reports.
+The renderer also supports --strict-margins when called directly; the bridge
+uses automatic fitting for previously refused pages.
+SHA256SUMS-before-0.9.2.txt preserves the previous package manifest; its current
+SHA256SUMS.txt renderer line is updated during installation. Additional update
+files are listed separately in SHA256SUMS-UPDATE-0.9.2.txt.
+Full corresponding source is in margin-fix-source-0.9.2.zip. Old package
+validation records remain historical; margin-fix-validation.json describes
+this update. ARM64 execution/physical output of the fix still needs the one
+target check above; local decoding and mock bridge checks have passed.

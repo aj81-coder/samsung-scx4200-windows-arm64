@@ -1,0 +1,36 @@
+Next target check: cancel a waiting job
+
+Use the SAME0.7.0 folder which passed ordinary printing and paper refill.
+Keep the existing SCX-4200 Capture Test printer entry. No new download needed.
+This intentionally cancels a sample job; a stopped/error result is expected.
+
+1. Close any previous bridge window. Switch the printer on and connect USB.
+   Remove unused paper from its INPUT tray. Keep the tray empty throughout
+   this cancellation check, even after you cancel the document.
+2. Run 1-START-RELIABLE-BRIDGE.cmd. Type ARM, press Enter and wait for readiness.
+3. Open TWO-PAGE-SAMPLE.pdf and print ALLpages, ONEcopy, A4, one-sided to
+   SCX-4200 Capture Test. Submit it once. Wait about20seconds for the printer
+   to need paper / bridge to report waiting. Do NOT refill the tray this time.
+4. Open Windows Settings > Bluetooth & devices > Printers & scanners >
+   SCX-4200 Capture Test > Open print queue. Select the sample document and
+   use Cancel (right-click or its three-dot menu). Cancel only that test job.
+   If the queue has no document, or the bridge already says Job completed,
+   do not submit again. Collect results and report that observation instead;
+   this run did not catch the job while it was still waiting.
+5. Watch the bridge for a cancelled/stopped/failed message. If it is still
+   waiting after about15seconds, record that fact; do not submit another job.
+   Press Ctrl+C and allow up to a minute for the bridge program to stop.
+6. Run 2-COLLECT-RESULTS.cmd and attach the reliable-bridge-results ZIP here.
+   Tell us whether Cancel stopped the waiting job, the message shown, and
+   whether the document disappeared from the Windows queue. Keep the tray
+   empty and printer off once the bridge is stopped, until recovery is reviewed.
+
+Cancellation stops further sending. Data already accepted by the printer
+cannot be recalled, so do not refill and accidentally print buffered output.
+Don't press Print again, restart the bridge, delete a lock, or run the recovery
+tool during this first check. The recovery step will follow review of its logs.
+
+If the startup check is blocked, or the test document remains in the queue,
+collect the results and report that instead. Do not remove the printer entry
+or change other printers/spooler services. Interrupted/partial delivery is
+expected to remain blocked until a deliberate reset abandons old printer data.

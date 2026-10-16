@@ -1,0 +1,2 @@
+General Preview 0.12.1 source
+Read BUILDING.md. In PowerShell 7 run ./native-general/rebuild.ps1 -Architecture both.

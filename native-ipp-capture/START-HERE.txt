@@ -1,0 +1,55 @@
+SCX-4200 Windows ARM64 capture test 0.3.1 - repair and retry
+
+The first 0.3.0 queue setup succeeded. Two package bugs caused the problems:
+Windows replaced the queue comment, making the old removal check reject it;
+Windows then sent a gzip-compressed document, which 0.3.0 could not decode.
+This package fixes both. No paper will print: this still saves pages to files.
+
+Use a NEW extracted folder on the Samsung Snapdragon laptop.
+Keep SCX4200-IPP-Capture.exe and cups.dll from THIS package together.
+Do not copy only the EXE over an older installation.
+
+0. Close any old capture window. Right-click 0-REMOVE-OLD-TEST-QUEUE.cmd and
+   choose Run as administrator. Look for SUCCESS before pressing a key.
+   This removes only the exact test queue identified in your supplied report.
+   If it says FAILED, stop and collect/send that report; do not force removal.
+   It is fine if it reports that the old queue is already absent.
+
+1. Double-click 1-START-CAPTURE.cmd normally. Keep THIS window open throughout
+   the print test. It must say version 0.3.1-dev and show a capture folder.
+   A reboot or closing this window stops the capture program. It does not
+   run as an installed background service.
+
+2. Right-click 2-ADD-TEST-QUEUE.cmd, choose Run as administrator, and look for
+   SUCCESS. This adds SCX-4200 Capture Test using Microsoft's IPP Class Driver.
+   The QUEUE-SETUP window can close after you press a key; that is normal.
+   The separate CAPTURE window from step 1 must remain open.
+   Running setup again from this same folder now recognizes the recorded queue.
+
+3. Open SAMPLE-PAGE.txt in Notepad. Print ONE A4 copy to SCX-4200 Capture Test.
+   Do not choose your real printer or make the test queue the default printer.
+   The capture window should say Saved page ... if a page is received.
+   The physical printer can remain switched off.
+
+4. Close the capture window once the job finishes (or after an error).
+   Double-click 3-COLLECT-RESULTS.cmd and attach capture-results-....zip here.
+   Tell us whether the sample reached the capture window or what error appeared.
+   Collect results even if setup/printing failed. They are kept locally until
+   you attach them; nothing is uploaded automatically.
+
+5. To remove the NEW test queue, right-click 4-REMOVE-TEST-QUEUE.cmd and choose
+   Run as administrator. Use this new folder, which holds its creation record.
+   Step 0 is specifically for the original reported queue, not subsequent ones.
+
+Use only the included sample or another non-sensitive page. The results contain
+all captured runs from this folder: page content and diagnostic logs, including
+print options/job names. No USB driver, firewall or security setting is changed.
+Only the queue add/remove steps need administrator access.
+
+If Windows blocks an unsigned file, stop and send the exact message. Do not
+ disable security features. These are unsigned development builds.
+
+Verified locally: IPP discovery, exact pixels from uncompressed and gzip jobs,
+Create-Job/Send-Document, chunked gzip transfer, malformed/truncated input
+rejection, loopback-only listening, and mocked queue-recovery safety tests.
+ARM64 binaries are built/inspected. The gzip fix still needs this target retry.

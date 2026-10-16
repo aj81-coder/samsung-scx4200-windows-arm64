@@ -1,0 +1,34 @@
+Development build: Windows, portable Zig 0.15.2; no global installation.
+
+The source ZIP includes native-ipp-capture, pinned upstream source archives,
+and a validation report. Extract source-package into an empty project folder.
+Extract the two upstream ZIPs and zlib-1.3.1.tar.gz into its build directory,
+yielding build/cups-2.4.11, build/pappl-1.4.10 and build/zlib-1.3.1.
+Put the official Zig0.15.2 Windows
+x64 distribution in .tools/zig-x86_64-windows-0.15.2.
+
+Run from that project folder in PowerShell:
+  ./native-ipp-capture/build-dependencies.ps1 -Architecture x64
+  ./native-ipp-capture/build-framework.ps1 -Architecture x64
+  ./native-ipp-capture/build-capture.ps1 -Architecture x64
+Repeat with -Architecture arm64 for native ARM64 binaries.
+
+The CUPS DLL is required: its DllMain initializes thread-local/global state.
+PAPPL is statically linked. Both use conventional release optimization;
+Zig ReleaseSafe instrumentation traps on legacy CUPS callback/string-pool
+idioms, so this build is not claimed to have passed sanitizer testing.
+
+Generated configuration and adapted sources live under build/ipp/<arch>.
+Upstream archives remain unchanged. Capture-specific guards deliberately
+restrict these libraries to 300dpi 8-bit grayscale raster input. They are not
+general replacements for CUPS/PAPPL binaries. TLS, DNS-SD, JPEG and PNG
+are excluded in this loopback-only experimental build. zlib1.3.1 is compiled
+into cups.dll to decode Windows gzip-compressed document transfers.
+
+For local IPP tests, compile generate-raster.c with the CUPS include path and
+cups-import.lib, place its executable beside cups.dll, and run it to generate
+build/ipp/x64/fixture.pwg. Then run run-local-tests.ps1 -Python <python.exe>.
+This starts/stops a local endpoint; it does not add a Windows print queue.
+
+Full Windows queue acceptance and native ARM64 runtime remain target tests.
+This package contains no SpliX renderer or USB sending code.

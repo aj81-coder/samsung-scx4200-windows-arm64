@@ -1,0 +1,84 @@
+SCX-4200 BACKGROUND PREVIEW 0.11.1 - EXISTING TEST USERS
+
+Install once. Afterwards, print normally: there is no ARM prompt, bridge
+window to keep open, or 20-page session allowance. The app starts at sign-in.
+This first background preview still needs its combined Samsung laptop check.
+It reuses your existing SCX-4200 Capture Test printer; it does not reinstall it.
+
+ONE-TIME INSTALLATION
+1. Finish any current printing. Stop the OLD bridge with Ctrl+C and wait for
+   it to close. Keep its folder and the existing printer installed. If the
+   old session needs recovery, complete that in the old folder first.
+2. Extract this ZIP. Double-click INSTALL.cmd, as your usual Samsung Windows
+   user. Administrator mode is not needed. Installation copies the app onto
+   the laptop and adds startup and Start menu shortcuts.
+3. Continue only if it says Installed. A printer icon appears beside the
+   clock (it may be under the hidden-icons arrow). Right-click it for status.
+   If installation fails, send the setup-result-TIME.json saved beside
+   INSTALL.cmd and the displayed message. Do not repeatedly retry it.
+
+DAILY PRINTING
+Turn on the printer, connect USB and load A4. Open a document, choose Print,
+and select SCX-4200 Capture Test. Use A4, one copy, single-sided.
+The app starts automatically when you sign in; you do not open this folder
+or start/stop the bridge for each print. After installing, the Start menu
+entry Samsung SCX-4200 can also open it if you have deliberately quit it.
+
+This preview supports monochrome A4 at 300dpi, up to 10 pages per document.
+There is no cumulative 20-page limit. Keep the laptop awake while printing.
+Scanning, 600dpi, multiple copies and sleep during a job are not supported.
+Ready for documents means the app is listening; it does not prove that the
+physical printer is connected, loaded or finished printing.
+
+ONE COMBINED CHECK FOR THIS NEW VERSION
+1. Print a short ordinary document and check the actual sheets.
+2. Wait for the Windows queue to finish. Restart the laptop with no print
+   job pending. Do not run any of the old bridge command files.
+3. After signing in, check the icon has returned and print another short
+   document through the normal Print dialog.
+4. Right-click the icon, choose Save diagnostics, and send the ZIP whose
+   location it shows. Tell us whether both prints worked and the app started
+   automatically. No paper-out/cancellation/20-sheet retest is requested.
+The ZIP excludes page images and raw print data. Logs may contain document
+names or local paths; review before sharing. Do not ZIP the whole data folder.
+
+IF SOMETHING GOES WRONG
+If paper runs out while waiting, refill it without clicking Print again.
+Use the icon's Cancel current document when you want to abandon a job.
+Cancellation may leave data in printer memory; follow the displayed guidance.
+Stop printing stops the engine but keeps the icon available.
+Recover stopped session guides deliberate clearance of an interrupted job.
+It requires the engine stopped and the Windows queue empty; it never cancels
+Windows rows automatically or replays old data. Once recovery completes,
+choose Start printing. Keep partially printed output separate.
+Use Save diagnostics to report a problem; there is no need after every print.
+
+REMOVAL / RETURN TO YOUR OLD VERSION
+Wait for printing to finish and choose Quit from the icon. Run UNINSTALL.cmd
+from this extracted package. It removes only this owned app and its shortcuts;
+your printer queue, old working folder and diagnostic data remain.
+If an interrupted job is present, complete guided recovery first. After the
+new app has stopped, you can use the old working version again. Never run
+both bridges together. Do not delete locks or spool files to bypass recovery.
+
+TECHNICAL / PRIVACY NOTES
+App: %LOCALAPPDATA%\SCX4200\app
+Data: %LOCALAPPDATA%\SCX4200\data
+The listener remains local: http://127.0.0.1:8631/ipp/print.
+Normal printing needs no WSL, second computer or internet service.
+Only the background host/engine and their isolated framework build are new;
+the margin renderer, USB sender and CUPS DLL match the working preview.
+Successful page captures are removed at the next job or clean shutdown;
+up to 10 completed-job metadata folders are retained per run. Failed work
+and old run diagnostics are preserved. Bounded storage guards may require
+attention if historical evidence accumulates; they never erase uncertain work.
+Setup preserves the existing named Microsoft IPP Class Driver queue and its
+recorded port. If Windows exposes a URL, it must match the local bridge;
+conflicting URLs refuse. Some systems expose only FormTrayTable, with no URL:
+installation can then continue without claiming the queue URL was verified.
+The receipt explicitly records that the endpoint was not exposed. A missing
+queue, wrong driver, missing port or outstanding jobs still blocks setup.
+The binaries are unsigned. Controls use a process-local PowerShell execution
+option; no machine/user execution-policy setting is changed. If Windows or
+organizational policy blocks execution, report the message; do not disable it.
+No public release or wider ARM64 compatibility claim is made yet.

@@ -1,0 +1,52 @@
+SCX-4200 Windows cancellation test - 0.8.0
+
+This version accepts the complete document before waiting for USB printing.
+The direct Cancel button already passed on this laptop. This test checks the
+normal Windows print queue Cancel control with the new bridge.
+Keep the existing SCX-4200 Capture Test printer entry installed.
+
+PREPARE
+1. Stop any old bridge with Ctrl+C and wait for it to close (up to a minute).
+2. Switch the printer off, disconnect USB and wait 20 seconds. This abandons
+   data remaining from the previous cancellation test.
+3. Open Settings > Bluetooth & devices > Printers & scanners > SCX-4200
+   Capture Test > Open print queue. Cancel any old sample documents. If they
+   stay stuck, stop and tell us. Do not delete the printer entry.
+4. Extract this ZIP into a NEW folder on the Snapdragon laptop. Run commands
+   from the extracted folder, not from inside the ZIP. Reconnect USB, switch
+   the printer on, and load plenty of A4 paper.
+
+CHECK NORMAL PRINTING
+5. Double-click 1-START-RELIABLE-BRIDGE.cmd, type ARM and press Enter when
+   asked. Leave the bridge window open.
+6. Open the supplied TWO-PAGE-SAMPLE.pdf. Print all pages, ONE copy, A4,
+   one-sided, Actual size / 100% if offered, to SCX-4200 Capture Test.
+7. Wait for both correct sheets and "Ready for next document". If this
+   fails, collect results and stop; do not continue to cancellation.
+
+CHECK WINDOWS CANCEL
+8. Remove unused paper from the INPUT tray. Keep it empty from now on.
+9. Print the same PDF ONCE more with the same settings. Wait about 20 seconds.
+10. Open the SCX-4200 Capture Test Windows print queue. Select the current
+    document and choose Cancel (possibly in its three-dot menu). Confirm
+    cancellation if Windows asks. Do not use 4-CANCEL-CURRENT-JOB.cmd here:
+    this test needs to determine whether Windows sends its own cancellation.
+11. Wait up to 20 seconds. Note whether the document disappears, what Windows
+    says, and what the bridge and printer display. A blocked bridge after
+    cancellation is expected. "PC Print Pending" may remain on the printer;
+    cancellation does not remove data it has already buffered.
+12. Press Ctrl+C in the bridge window; allow up to a minute for it to stop.
+    Keep the tray empty. Do not refill, restart, or submit another document.
+13. Double-click 2-COLLECT-RESULTS.cmd and attach the resulting ZIP. Tell us
+    whether the first two pages printed correctly and what happened at Cancel.
+
+If Cancel has no apparent effect, stop the bridge with Ctrl+C and collect.
+Do not send more jobs. Keep all old results. No administrator window is needed.
+Results contain the supplied sample and logs; do not test private documents.
+
+The separate 4-CANCEL-CURRENT-JOB.cmd remains available as a fallback, but
+using it instead of Windows Cancel would not exercise the intended test.
+This development bridge supports one-copy, simplex A4 at 300dpi, at most
+10 pages/document and 20 pages/session. Installer, background service and
+public release are later stages. Windows Cancel on this new version is still
+awaiting target confirmation.

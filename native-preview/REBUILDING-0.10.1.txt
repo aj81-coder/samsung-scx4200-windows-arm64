@@ -1,0 +1,58 @@
+FOREGROUND PREVIEW SOURCE BUILD - AUDITED RECIPE
+
+Runtime commands use Windows PowerShell5.1. DEVELOPMENT BUILDS require
+PowerShell7: the patch generators depend on its string-overload behavior.
+The audit host is Windows x64. No Python or PowerShell7 is required simply
+to use the printer package on the target ARM64 laptop.
+
+Extract source.zip into a fresh folder. Top directory source-package-0.8.0
+is a historical name; its current renderer is0.9.2. Old component READMEs
+describe earlier experiments. Use this top-level recipe for the current build.
+
+Install the official Zig0.15.2 Windows x64 distribution under
+ .tools/zig-x86_64-windows-0.15.2
+Its ZIP SHA256 is
+ 3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c
+The compiler is a separate development prerequisite; do not trust a package
+just because it is called Zig. Verify the archive against this pin.
+
+Open PowerShell7 and run from the extracted source folder:
+ ./native-preview/rebuild-from-source.ps1 -Architecture both
+
+The script checks all source archive pins, extracts CUPS/PAPPL/zlib/SpliX,
+builds both architectures and assembles build/async/ARCH. It never prints or
+changes Windows queues. It records output hashes in build/rebuild-TIME.json.
+For a deliberate repeat build, -UseExistingSources preserves the existing
+upstream directories and cache; use a fresh tree for a clean-source audit.
+
+Individual commands, in order:
+ native-async-bridge/build-dependencies.ps1 -Architecture ARCH
+ native-render-print/build-renderer.ps1 -Architecture ARCH -OutputRoot build/margin-fix
+ native-reliable-bridge/sender-build.ps1
+ native-async-bridge/build-bridge.ps1 -Architecture ARCH -RendererRoot build/margin-fix
+
+The explicit RendererRoot is required with that output layout. The older
+0.10.0recipe omitted it and could copy a stale converter in an existing tree.
+It failed to assemble from a clean tree. No C/C++ code change was needed.
+
+Included source archives and exact SHA256:
+ CUPS2.4.11 build/cups-2.4.11.zip
+ 7c8481adc19e92399ba847e65df7a7251d96cb29b3e704cad780965d99403e42
+ PAPPL1.4.10 build/pappl-1.4.10.zip
+ 1e93ffc841ea560b93a3f699bc0f3b3220ac4df2e0f0934f0c30f62bb8c6c72f
+ zlib1.3.1 build/zlib-1.3.1.tar.gz
+ 9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23
+ SpliX reference-job/upstream/splix-source.zip
+ bbba212ecd05ae704291103413dd087e8f039c78a06cc5fdf270065c00ed49c9
+SpliX extracts to splix-7a802180c7b50802aaa16bbd2b3e326237286730 beside its ZIP.
+
+For tests, Python with Pillow/NumPy is a development prerequisite. The
+synthetic margin suite is native-render-print/test-margin-fit.py OUTDIR.
+Also build native-render-print/sender-build.ps1 for its offline single-page
+validator. Optional original-renderer/private-target comparisons explicitly
+report SKIP when historical artifacts are unavailable. The synthetic checks
+do not need private documents. Never automate production real-USB printing.
+
+Source-build success and byte-for-byte binary reproducibility are separate
+claims. Read the audit record for measured results, differing build paths,
+recipe corrections, runtime tests, and remaining release gates.

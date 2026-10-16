@@ -1,0 +1,25 @@
+Native reliability bridge 0.7.0
+
+Extract source.zip as SCX4200. Use pinned Zig0.15.2 Windows x64, SHA256
+3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c,
+extracted to .tools/zig-x86_64-windows-0.15.2.
+Extract CUPS2.4.11/PAPPL1.4.10/zlib1.3.1 into build and pinned SpliX into
+reference-job/upstream. See native-ipp-capture/REBUILDING.txt for details.
+For x64 and arm64, build native-ipp-capture/build-dependencies.ps1 and
+build-framework.ps1 -Architecture ARCH, then native-render-print/
+build-renderer.ps1 -Architecture ARCH. Run native-reliable-bridge/
+sender-build.ps1 (both architectures), then build-bridge.ps1 -Architecture ARCH.
+
+Development tests use explicit mock transport, a hardcoded test-only child
+sender, and private pipe I/O. They never print through USB. Use the included
+build-test-tools.ps1 for the separate test binary/stub and fixtures. Python/
+Pillow are needed for tests. The unchanged renderer remains a separate GPL2
+executable using standard PGM/QPDL files; it is not linked into the IPP app.
+The source includes the deterministic, non-private reference-job/test-page.qpdl
+fixture plus its generator sources for sender admission/handoff tests.
+
+The normal executable prints after ARM; do not invoke real mode for unattended
+development tests. Test-only sender overrides/stop markers are compile-only
+and are absent from production binaries. Source and dependency licences are
+included. Captured user pages are excluded from source.zip. Public release,
+installer/background startup and wider target reliability remain later work.

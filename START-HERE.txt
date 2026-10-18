@@ -1,11 +1,26 @@
-Samsung SCX-4200 - General Preview 0.12.1
+Samsung SCX-4200 printing on Windows 11 ARM64 - Preview 0.12.1
 
-This update adds a recognisable printer tray icon and housekeeping across app
-restarts. The engine, USB sender and renderer are unchanged from 0.12.0, whose
-three-page document printed correctly on the target ARM64 laptop. There is no
-fixed document page-count or upload-size limit. Large jobs need disk space and
-time. A4, monochrome, 300 dpi, one copy, single-sided printing is supported.
-Scanning is not included.
+The legacy Samsung SCX-4200 Windows driver does not support Windows 11 ARM64.
+This app enables ordinary USB printing: install once, then select the printer
+in normal applications. It runs in the background and starts at sign-in.
+Basic printing has been tested; this version is now in regular household use.
+Scanning has not been addressed; future investigation is being considered.
+Supported output: A4, monochrome, 300 dpi, one copy, single-sided.
+This personal project was developed with OpenAI ChatGPT and Codex, including
+substantial AI technical decisions, code, tests and AI-generated documentation.
+See AI-PROVENANCE.md and VALIDATION.md for details and evidence limits.
+
+FIRST INSTALLATION
+
+1. Windows 11 ARM64 is required. Turn on the SCX-4200, connect its USB cable and
+   load A4 paper. Extract this ZIP into a new folder on the laptop's internal drive.
+2. Double-click INSTALL.cmd as your usual Windows user and wait for Installed.
+   If no supported queue exists, setup attempts to create Samsung SCX-4200.
+3. Only if setup reports permission denied creating the printer: right-click
+   ADD-PRINTER.cmd, choose Run as administrator, then run INSTALL.cmd again as
+   your usual user. INSTALL itself is a per-user installation.
+4. Print a short document and check the paper. Keep this package folder; it may
+   contain the receipt needed for optional removal of the queue it created.
 
 UPGRADING YOUR WORKING 0.12.0 INSTALLATION
 
@@ -28,18 +43,6 @@ UPGRADING YOUR WORKING 0.12.0 INSTALLATION
 If upgrading directly from 0.11.1, use UNINSTALL.cmd in that older package at
 step 3. If your existing queue is Samsung SCX-4200, keep that queue instead.
 Never run an old bridge alongside the installed background app.
-
-FIRST INSTALLATION
-
-1. Windows 11 ARM64 is required. Turn on the SCX-4200, connect its USB cable and
-   load A4 paper. Extract this ZIP into a new folder on the laptop's internal drive.
-2. Double-click INSTALL.cmd as your usual Windows user and wait for Installed.
-   If no supported queue exists, setup attempts to create Samsung SCX-4200.
-3. Only if setup reports permission denied creating the printer: right-click
-   ADD-PRINTER.cmd, choose Run as administrator, then run INSTALL.cmd again as
-   your usual user. INSTALL itself is a per-user installation.
-4. Print a short document and check the paper. Keep this package folder; it may
-   contain the receipt needed for optional removal of the queue it created.
 
 EVERYDAY PRINTING
 
@@ -74,8 +77,8 @@ FULL INSTRUCTIONS
 USER-GUIDE.txt (open in Notepad) and USER-GUIDE.md cover installation, controls,
 recovery, storage, troubleshooting, updating, removal and privacy. SUPPORT.md
 explains diagnostics. BUILDING.md and source.zip provide the matching source.
-All documents can be opened locally; no public download site exists yet.
+Project releases: https://github.com/aj81-coder/samsung-scx4200-windows-arm64/releases/tag/v0.12.1
 
 This is an unsigned independent community preview. Fresh Windows queue
 creation/removal remains physically unverified; existing-queue printing has
-passed the target checks described in VALIDATION.md. Nothing is published yet.
+passed the target checks described in VALIDATION.md. See the release page for the current public status.

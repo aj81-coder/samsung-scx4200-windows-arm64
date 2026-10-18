@@ -1,12 +1,11 @@
-# Proposed first GitHub release
+# Publishing and maintaining releases
 
-This is a prepared publication plan, not authorization to upload. No repository,
-release page, public download or support account has been created.
+The owner explicitly authorised publication on 18 October 2026 after reporting successful 0.12.1 installation and regular household printing. Repository: https://github.com/aj81-coder/samsung-scx4200-windows-arm64. Release: https://github.com/aj81-coder/samsung-scx4200-windows-arm64/releases/tag/v0.12.1. Future releases still require their own applicable review and authorisation.
 
-Proposed repository name: `samsung-scx4200-windows-arm64`.
-Proposed description: "Local IPP-to-USB printing bridge for the Samsung SCX-4200
+Repository name: `samsung-scx4200-windows-arm64`.
+Description: "Local IPP-to-USB printing bridge for the Samsung SCX-4200
 on Windows 11 ARM64. Independent community project."
-Proposed first tag: `v0.12.1`, marked as a pre-release/community preview.
+First tag: `v0.12.1`, marked as a pre-release/community preview.
 Use [RELEASE-NOTES.md](RELEASE-NOTES.md) as the release description after resolving final checks.
 
 Before publication, show the owner the final binary/source archives, checksums,
@@ -35,7 +34,7 @@ documents or full recovery backups in public issues.
 
 Keep the first release labelled as a community preview. State the physically
 accepted 0.12.0 print path, device-free scope of updated housekeeping/host tests,
-fresh-queue validation limits, unsigned status and supported printing features.
+fresh-queue validation limits, unsigned status, AI development/documentation disclosure and supported printing features. Record subsequent human reports separately from the frozen archive evidence.
 Feedback can improve compatibility without delaying publication for months of
 routine printing. After publication, verify downloadable archive checksums and
 matching source availability and record the real repository/release URLs.

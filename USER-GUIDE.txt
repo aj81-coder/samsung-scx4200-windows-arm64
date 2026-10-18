@@ -1,18 +1,20 @@
-﻿# Samsung SCX-4200 printing on Windows ARM64
+# Samsung SCX-4200 printing on Windows ARM64
 
 Print to a USB-connected Samsung SCX-4200 from ordinary Windows applications on a Windows 11 ARM64 laptop. The small background app starts when you sign in and offers status and recovery controls beside the clock. Normal printing needs no console window, WSL, second computer or internet service.
 
-**General Preview 0.12.1 — release candidate, not published.** This update adds a recognisable printer tray icon and automatic housekeeping across app restarts. It keeps the document handling accepted in 0.12.0: a three-page document printed correctly on the target ARM64 laptop, and its diagnostics showed no errors or retries. Automated checks previously covered 257 pages. New housekeeping, build and package checks are recorded separately in [validation](VALIDATION.md). Fresh printer creation/removal still needs physical acceptance. See [release gates](RELEASE-GATES.md).
+**Community preview 0.12.1.** Basic printing has been tested and this version is now in regular household use on a Samsung Galaxy Book4 Edge. On 18 October 2026 the owner reported successful installation and printing, including a document printed independently by another household user. Fresh queue creation/removal remains physically unverified. See [validation](VALIDATION.md) and [development transparency](AI-PROVENANCE.md).
 
 ## What this is
 
 This is an independent community project, not a Samsung or HP product. Windows uses its built-in Microsoft IPP Class Driver. This app receives the local print job, renders it into the printer's language and sends it over USB. You do not install an old x64 Samsung driver on ARM64 Windows.
 
+Scanner functionality has not been addressed; future investigation is being considered without a promised delivery date.
+
 Current supported output is A4, monochrome, 300 dpi, single-sided, one copy. It does not provide scanning, duplex, 600 dpi, network printer sharing or printing before sign-in. Keep the laptop awake during a job. Compatibility with other Samsung printer models or every Windows ARM64 computer is not established.
 
 ## Install once
 
-Use **SCX4200-General-Preview-0.12.1-arm64.zip** when the candidate is supplied for testing or published in the project's Releases page. The package includes `source.zip` for the matching implementation. No public download is available yet. These steps are for the candidate; its new-user setup has not yet been demonstrated on the physical ARM64 laptop.
+Download **SCX4200-General-Preview-0.12.1-arm64.zip** from the [release page](https://github.com/aj81-coder/samsung-scx4200-windows-arm64/releases/tag/v0.12.1). The package includes `source.zip` for the exact matching implementation. Fresh installation with creation of a new Windows printer queue remains physically unverified; the reported installation used an existing working queue.
 
 1. Finish any printing. If you use an older foreground bridge, stop it with Ctrl+C and wait for it to close. Complete any interrupted-job recovery in that version first.
 2. If upgrading from 0.12.0 or 0.11.1, finish printing, choose **Quit** from its tray icon (including under the hidden-icons arrow), wait for it to close and run **UNINSTALL.cmd** from that old package. Keep the printer and diagnostic data; removal preserves them. The new installer does not overwrite an existing app installation.
@@ -24,7 +26,7 @@ Setup copies the app to the laptop and creates Start menu and sign-in shortcuts.
 
 If installation fails, keep its message and `setup-result-….json` beside INSTALL.cmd, along with any `queue-setup-…-result.json`. Report those rather than repeatedly installing. A partial failure may have created a printer even though the app was not installed; preserve the package and ownership receipt so its state can be diagnosed safely.
 
-The package is currently unsigned. If Windows or workplace policy prevents running it, report the exact message; do not disable antivirus, SmartScreen or organizational policy. There is no hosted public download or publisher identity to verify yet.
+The package is currently unsigned. If Windows or workplace policy prevents running it, report the exact message; do not disable antivirus, SmartScreen or organizational policy. Use the [project release page](https://github.com/aj81-coder/samsung-scx4200-windows-arm64/releases/tag/v0.12.1) and compare its SHA-256 checksums. The app has no code-signing certificate.
 
 ## Print normally
 
@@ -34,7 +36,7 @@ The package is currently unsigned. If Windows or workplace policy prevents runni
 
 The background app starts automatically after sign-in. If you deliberately quit it, open **Samsung SCX-4200** from Start. Never run an old bridge alongside it. You can leave the printer off or disconnected between jobs.
 
-The 0.12.1 candidate has **no fixed page-count limit or fixed upload-size limit**, and no cumulative session allowance. It spools the complete document to disk before printing, renders pages individually and streams the validated result to USB using bounded buffers. Large jobs take longer and need proportionately more disk space. A 128 MiB free-space reserve and overflow/error checks can refuse a job; this is not a promise to handle an infinitely large document. Device-free tests passed with 257 pages and with an upload exceeding the old 32 MiB cap. The 0.12.0 document path printed a correct three-page document on the target; its engine, sender and renderer are unchanged in this update.
+Version 0.12.1 has **no fixed page-count limit or fixed upload-size limit**, and no cumulative session allowance. It spools the complete document to disk before printing, renders pages individually and streams the validated result to USB using bounded buffers. Large jobs take longer and need proportionately more disk space. A 128 MiB free-space reserve and overflow/error checks can refuse a job; this is not a promise to handle an infinitely large document. Device-free tests passed with 257 pages and with an upload exceeding the old 32 MiB cap. The 0.12.0 document path printed a correct three-page document on the target; its engine, sender and renderer are unchanged in this update.
 
 Some edge content is reduced slightly to fit the printer's margins. Borderless output is not supported. Windows reporting **Sent to printer** or a completed job means that data was handed off, not that every sheet has physically emerged. Check the paper when completeness matters.
 

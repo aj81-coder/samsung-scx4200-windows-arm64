@@ -1,40 +1,38 @@
 # Samsung SCX-4200 on Windows 11 ARM64 (Snapdragon)
 
-Print to a USB-connected **Samsung SCX-4200** from ordinary Windows applications
-on an ARM64 laptop. This is an independent community **driver alternative** for
-people whose legacy printer setup does not work on Windows on ARM.
+The Samsung SCX-4200's legacy Windows driver does not support **Windows 11 on ARM64**. This project provides a solution for **printing** to the USB-connected printer from ordinary Windows applications on ARM64 / Snapdragon laptops.
 
-Windows uses its built-in Microsoft IPP Class Driver. A small native background
-app receives the local job, converts its pages to the SCX-4200's printer language
-and sends the result over USB. Normal printing needs no WSL, second computer or
-internet service. The app starts when you sign in.
+**Install once, then print normally.** A small native app runs in the background and starts when you sign in. Windows uses its built-in Microsoft IPP Class Driver; the app converts jobs into the printer's language and sends them over USB. Everyday printing needs no console window, WSL, second computer or internet service.
 
-**Community preview 0.12.1 is being prepared; no public download is published
-yet.** The earlier 0.12.0 print path printed a complete three-page document on a
-Samsung Galaxy Book4 Edge. Version 0.12.1 keeps those printing binaries unchanged
-and adds a printer tray icon and housekeeping. Its host/helper have device-free
-Windows tests; observation of the updated host on the ARM64 laptop is pending.
+**Community preview 0.12.1:** basic printing functions have been tested, and the app is now in regular household use on a Samsung Galaxy Book4 Edge. On 18 October 2026 the owner reported installing and testing this version, and another household user printed a document normally without the owner's assistance. See [validation](VALIDATION.md) for the evidence and its limits.
 
-## I want to print with my SCX-4200
+## Download and install
 
-The prepared ARM64 package includes an installer, matching source and full
-instructions. When the reviewed release is published, use its ARM64 ZIP rather
-than GitHub's automatic source-code download. A direct release link will be
-added here after the repository and release exist.
+**[Download the Windows ARM64 app ZIP](https://github.com/aj81-coder/samsung-scx4200-windows-arm64/releases/download/v0.12.1/SCX4200-General-Preview-0.12.1-arm64.zip)** · [Release page and checksums](https://github.com/aj81-coder/samsung-scx4200-windows-arm64/releases/tag/v0.12.1)
+
+1. Extract the ZIP into a folder on the laptop's internal drive.
+2. Turn on the SCX-4200, connect USB and load A4 paper.
+3. Double-click **INSTALL.cmd** as your usual Windows user and wait for **Installed**. Follow the [installation guide](USER-GUIDE.md) if Windows needs administrator permission to create the printer.
+4. In your normal application's Print dialog, select **Samsung SCX-4200** (or an existing **SCX-4200 Capture Test** queue), A4, one copy and single-sided printing. Print once.
+
+The app then starts when you sign in. Its printer icon beside the clock provides status, cancellation and recovery controls. Keep the extracted package folder for its instructions and any queue-removal receipt.
 
 - [Complete installation and printing guide](USER-GUIDE.md)
 - [Short installation and upgrade instructions](START-HERE.txt)
 - [Troubleshooting and reporting a problem](SUPPORT.md)
 - [Release notes](RELEASE-NOTES.md) and [what has actually been tested](VALIDATION.md)
 
-Supported output is **A4, monochrome, 300 dpi, single-sided, one copy**. There is
-no artificial document page-count or upload-size cap; disk space, processing
-time and format bounds still apply. Scanning, duplex, 600 dpi and network printer
-sharing are outside this preview. Fresh queue creation/removal is implemented
-but remains physically unverified. Existing Capture Test queues are preserved.
+Supported output is **A4, monochrome, 300 dpi, single-sided, one copy**. There is no artificial document page-count or upload-size cap; disk space, processing time and format bounds still apply. Keep the laptop awake while printing. Fresh queue creation/removal is implemented but remains physically unverified; existing working queues are preserved.
 
-The package is unsigned. It is not an official Samsung, HP or Microsoft driver.
-Read the guide before installation and review diagnostics before sharing them.
+**Scanner functionality has not been addressed.** It is being considered for future investigation, with no promised delivery date. Duplex, 600 dpi and network printer sharing are outside this preview.
+
+This is an unsigned, independent community project, not an official Samsung, HP, Microsoft or OpenAI product. Review the instructions before installation and diagnostics before sharing them.
+
+## Developed with AI
+
+This began as a personal solution and is shared for wider benefit. It was developed using OpenAI's ChatGPT and Codex (often called “vibe coding”). AI made substantial design, implementation, debugging and test-planning decisions, wrote the project code, and generated the notes and documentation. The human owner set the goal, supplied feedback, made project and publication decisions, and carried out physical printer tests with another household user.
+
+This is not a claim of an independent human expert code audit. Existing upstream projects and their authors remain credited under their own licences. See [development transparency](AI-PROVENANCE.md) for the distinction between AI work, automated checks and human observations.
 
 ## Will this help with another old printer on Windows ARM?
 
